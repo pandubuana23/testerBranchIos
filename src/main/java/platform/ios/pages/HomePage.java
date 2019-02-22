@@ -55,13 +55,15 @@ public class HomePage extends Abstract {
     @iOSFindBy(xpath = "//XCUIElementTypeOther[@name=\"UangTeman\"]" )
     public MobileElement uangTemanLogo;
 
-    @iOSFindBy(xpath = "//XCUIElementTypeApplication[@name=\"UangTeman\"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeScrollView/XCUIElementTypeImage[1]")
+    @iOSFindBy(xpath = "//XCUIElementTypeApplication[@name=\"UangTeman\"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/" +
+            "XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/" +
+            "XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeScrollView")
     public MobileElement bannerImage;
 
     @iOSFindBy(id = "Pinjaman Online")
     public MobileElement pinjamanOnline;
 
-    @iOSFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Isi data diri hanya 5 menit. Pinjaman hingga 3 juta rupiah.\"]")
+    @iOSFindBy(xpath = "//XCUIElementTypeStaticText[contains(@name, '5 menit')]")
     public MobileElement isiDataDiri;
 
     @iOSFindBy(id = "Pinjam Sekarang - Langsung Cair")
@@ -221,6 +223,53 @@ public class HomePage extends Abstract {
         Assert.assertEquals("failed : Cek status pinjaman kamu di bawah ini text is invalid", check_status, getStatusText());
     }
 
+    public void stepsFornewInstall() {
+        steps("verify and click Selanjutnya Button");
+        clickSelanjutnya();
+        steps("verify lewati button");
+        checkLewatiBtn();
+        steps("Verify ajukan pinjaman");
+        checkAjukanPinjaman();
+        steps("click selanjutnya button");
+        clickSelanjutnya();
+        steps("Verify Form Aplikasi");
+        checkFormAplikasi();
+        steps("click selanjutnya button");
+        clickSelanjutnya();
+        steps("Verify uang dicairkan page");
+        checkUangDicairkanPage();
+        steps("click masuk home button");
+        clickMasukHome();
+        steps("verify and click allow button");
+        clickAllowButton();
+        steps("Check allert popup");
+        checkAlertPopup();
+        steps("check information popup");
+        CheckInformationPopup("Versi terbaru telah tersedia di AppStore. Update aplikasi kamu agar tetap dapat menggunakan dan mengajukan pinjaman!");
+        steps("Check Update Button");
+        checkUpdateBtn();
+    }
+
+    public void stepsCheckHomescreenPageAndClickAjukanpinjaman() {
+        steps("Click lain kali button");
+        clickLainKaliBtn();
+        steps("Check Header");
+        checkHeader();
+        steps("Check Home Banner");
+        checkImageBanner();
+        steps("Verify Pinjaman Online text");
+        CheckPinjamanOnline("Pinjaman Online");
+        steps("Verify Isi Data Diri information text");
+        checkIsiDataDiri("Isi data diri hanya 5 menit.   Pinjaman hingga 3 juta rupiah.");
+        steps("Verify ajukan pinjaman button");
+        checkAjukanPinjamanBtn();
+        steps("Verify status pinjaman text");
+        checkStatusPinjamanText("Status Pinjaman");
+        steps("Verify Cek status pinjaman kamu di bawah ini");
+        VerifyCheckStatus("Cek status pinjaman kamu di bawah ini");
+        steps("Click Ajukan Pinjaman");
+        clickAjukanPinjaman();
+    }
 
 
 }

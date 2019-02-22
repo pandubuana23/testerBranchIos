@@ -15,20 +15,23 @@ public class DataPribadiPage extends Abstract {
     /**
      ** Elements on Contact Dasar Page
      **/
-//=================================================================================================================================================
+//======================================================================================================================
     @iOSFindBy (id = "Detail data kamu")
     public MobileElement dataPribadiPage;
-
+    @iOSFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"4\"]")
+    protected MobileElement form4Number;
     @iOSFindBy(xpath = "//XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField")
     public MobileElement nameField;
 
-    @iOSFindBy(xpath = "//XCUIElementTypeOther/XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeOther")
+    @iOSFindBy(xpath = "//XCUIElementTypeOther/XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther[3]/" +
+            "XCUIElementTypeOther")
     public MobileElement jenisKelaminDropDown;
 
     @iOSFindBy(xpath = "//XCUIElementTypeOther/XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeTextField")
     public MobileElement tempatLahir;
 
-    @iOSFindBy(xpath = "//XCUIElementTypeOther/XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther[5]/XCUIElementTypeOther[1]/XCUIElementTypeOther")
+    @iOSFindBy(xpath = "//XCUIElementTypeOther/XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther[5]/" +
+            "XCUIElementTypeOther[1]/XCUIElementTypeOther")
     public MobileElement dateOfBirthDropdown;
 
     @iOSFindBy(xpath = "//XCUIElementTypePicker/XCUIElementTypePickerWheel")
@@ -52,7 +55,7 @@ public class DataPribadiPage extends Abstract {
     /**
      ** Methods for each elements on Home page
      **/
-//=================================================================================================================================================
+//======================================================================================================================
     public String getDataPribadiText(){
         org.junit.Assert.assertTrue("Failed: data pribadi page is not displayed", dataPribadiPage.isDisplayed());
         return dataPribadiPage.getText();
@@ -61,9 +64,10 @@ public class DataPribadiPage extends Abstract {
     public void checkDataPribadiPage(String data_pribadi){
         org.junit.Assert.assertEquals("Failed: Data Pribadi text is invalid", data_pribadi, getDataPribadiText());
         waitFor(1);
+        isElementPresent(form4Number);
     }
     public void inputFullName(String full_name){
-        enterText(nameField, full_name);
+        clearEnterText(nameField, full_name);
         clickDone();
         waitFor(1);
     }
@@ -74,7 +78,7 @@ public class DataPribadiPage extends Abstract {
         waitFor(1);
     }
     public void inputTempatLahir(String tempat_lahir){
-        enterText(tempatLahir, tempat_lahir);
+        clearEnterText(tempatLahir, tempat_lahir);
         clickDone();
         waitFor(1);
     }
@@ -85,7 +89,7 @@ public class DataPribadiPage extends Abstract {
 
     private String[] getDateOfBirth(String dateOfBirth) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
-        SimpleDateFormat newDateFormat = new SimpleDateFormat("mmmm d yyyy");
+        SimpleDateFormat newDateFormat = new SimpleDateFormat("MMMMM dd yyyy");
 
 //        Date newDate = newDateFormat.parse(dateOfBirth,newDateFormat) ;
         return newDateFormat.format(parseDateFormat(dateFormat, dateOfBirth)).split(" ");
@@ -126,16 +130,18 @@ public class DataPribadiPage extends Abstract {
 //        pageContentScroll("up");
 //        pageContentScroll("down");
 //        scrollScreen(tanggalLahirText,temaptLahirText);
-        swiptToBottom();
+//        swiptToBottom();
 //        swipeToDirection(agamaDropDown, "down");
-        System.out.println("__________x___________");
+        swiptswipt();
         waitFor(2);
         pernikahanDropDown.click();
         enterText(pernikahanStatus, status_pernikahan);
         clickDone();
     }
 
-    public void inputDataPribadi(String full_name,String tempat_lahir,String dateOfBirth,String input_agama,String status_pernikahan){
+    public void inputDataPribadi(String full_name,String tempat_lahir,String dateOfBirth,
+                                 String input_agama,String status_pernikahan)
+    {
         inputFullName(full_name);
         clickJenisKelamin();
         inputTempatLahir(tempat_lahir);
@@ -146,6 +152,27 @@ public class DataPribadiPage extends Abstract {
     }
 
 
+//=====================================================================================================================
 
+    public void stepsDetailDataKamuPage() {
+        steps("check page detail data kamu");
+        checkDataPribadiPage("Detail data kamu");
+        steps("input full name");
+        inputFullName("Wembo Automate");
+        steps("input gender");
+        clickJenisKelamin();
+        steps("input tempat lahir");
+        inputTempatLahir("California");
+        steps("input tanggal lahir");
+        setDateOfBirth("4/19/1990");
+        swiptswipt();
+        steps("input agama");
+        setAgama("Hindu");
+        steps("input marriage status");
+        setStatusPernikahan("Menikah");
+        steps("klik selanjutnya button");
+        clickSelanjutnyaBtn();
+        waitingLoadingSpinner();
+    }
 
 }

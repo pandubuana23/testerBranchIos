@@ -11,18 +11,18 @@ public class ContactDasarPage extends Abstract {
      ** Elements on Contact Dasar Page
      **/
 //=================================================================================================================================================
+    @iOSFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"1\"]")
+    protected MobileElement form1Number;
+    @iOSFindBy(xpath = "//XCUIElementTypeOther[@name=\"Kontak Dasar\"]")
+    protected MobileElement kontakDasarHeader;
     @iOSFindBy(xpath = "//XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField")
     public MobileElement emailTextField;
-
     @iOSFindBy(xpath = "//XCUIElementTypeOther[3]/XCUIElementTypeOther/XCUIElementTypeTextField")
     public MobileElement phoneField;
-
     @iOSFindBy(id = "Return")
     public MobileElement returnBtn;
-
     @iOSFindBy(xpath = "//XCUIElementTypeOther[4]/XCUIElementTypeOther/XCUIElementTypeTextField")
     public MobileElement ktpField;
-
     @iOSFindBy(xpath = "//XCUIElementTypeOther[5]/XCUIElementTypeOther/XCUIElementTypeTextField")
     public MobileElement npwpField;
 
@@ -32,26 +32,30 @@ public class ContactDasarPage extends Abstract {
      ** Methods for each elements on Contact Dasar Page
      **/
 //=================================================================================================================================================
+    public void checkKontakDasarHeader() {
+        isElementPresent(form1Number);
+        isElementPresent(kontakDasarHeader);
+    }
     public void inputEmailAddress(String emailAddress) {
-        enterText(emailTextField, emailAddress);
+        clearEnterText(emailTextField, emailAddress);
         waitFor(1);
         returnBtn.click();
     }
 
     public void inputPhoneNumber(String phoneNumber){
-        enterText(phoneField, phoneNumber);
+        clearEnterText(phoneField, phoneNumber);
         waitFor(1);
         clickDone();
     }
 
     public void inputKtp(String ktpNumber){
-        enterText(ktpField, ktpNumber);
+        clearEnterText(ktpField, ktpNumber);
         waitFor(1);
         clickDone();
     }
 
     public void inputNpwp(String npwpNumber){
-        enterText(npwpField, npwpNumber);
+        clearEnterText(npwpField, npwpNumber);
         clickDone();
     }
 
@@ -60,16 +64,23 @@ public class ContactDasarPage extends Abstract {
         selanjutnyaBtn.click();
     }
 
-
-    public void InputKontakDasar(String emailAddress, String phoneNumber, String ktpNumber, String npwpNumber){
-        swiptswipt();
+    public void inputKontakDasar(){
+        steps("check kontak dasar header");
+        checkKontakDasarHeader();
+//        swiptswipt();
+        pageContentScroll("Up");
         waitFor(4);
-        inputEmailAddress(emailAddress);
-        inputPhoneNumber(phoneNumber);
-        inputKtp(ktpNumber);
-        inputNpwp(npwpNumber);
+        steps("input email address");
+        inputEmailAddress(setEmailAddress(3));
+        steps("input phone number");
+        inputPhoneNumber("0812" + generateRandomNumber(9));
+        steps("input ktp ID number");
+        inputKtp("9" + generateRandomNumber(15));
+        steps("input NPWP number");
+        inputNpwp(generateRandomNumber(15));
+        steps("click selanjutnya button");
         clickSelanjutnyaBtn();
-        waitFor(1);
+        waitFor(5);
     }
 
 

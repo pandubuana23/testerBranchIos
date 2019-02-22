@@ -16,6 +16,10 @@ public class BaseIOSTest extends AppiumDriverBuilder {
     protected AlasanPeminjamanPage alasanPeminjamanPage;
     protected SumberInfoPage sumberInfoPage;
     protected DataPribadiPage dataPribadiPage;
+    protected PendidikanPage pendidikanPage;
+    protected SukuTanggunganPage sukuTanggunganPage;
+    protected NoTeleponPage noTeleponPage;
+    protected AlamatTinggalPage alamatTinggalPage;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     Date date = new Date();
@@ -33,7 +37,10 @@ public class BaseIOSTest extends AppiumDriverBuilder {
         alasanPeminjamanPage = new AlasanPeminjamanPage(getDriver());
         sumberInfoPage = new SumberInfoPage(getDriver());
         dataPribadiPage = new DataPribadiPage(getDriver());
-
+        pendidikanPage = new PendidikanPage(getDriver());
+        sukuTanggunganPage = new SukuTanggunganPage(getDriver());
+        noTeleponPage = new NoTeleponPage(getDriver());
+        alamatTinggalPage = new AlamatTinggalPage(getDriver());
 
 
         System.out.println("============================================");

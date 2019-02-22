@@ -6,6 +6,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -48,7 +49,7 @@ public class Abstract extends AppiumDriverBuilder {
     }
 
     public void scrollScreen(MobileElement xElement, int endX, int endY){
-        new TouchAction(driver).longPress(xElement, 50).waitAction(2).moveTo(endX, endY).release().perform();
+        new TouchAction(driver).press(xElement).waitAction(2).moveTo(endX, endY).release().perform();
     }
 
     public void scroll(MobileElement element1, MobileElement element2){
@@ -79,12 +80,12 @@ public class Abstract extends AppiumDriverBuilder {
         for (int i = 0; i < 3; i++) {
             try {
                 if (isNoElementAvailable() || !element.isDisplayed()) {
-                    System.out.println("Element not displayed");
-                    log.info("xpath element is not displayed.");
+                    System.out.println("- Element not displayed");
+                    log.info("- xpath element is not displayed.");
                     waitFor(2);
                 } else if (!isNoElementAvailable() || element.isDisplayed()){
-                    System.out.println("Element displayed");
-                    log.info("xpath element is displayed.");
+                    System.out.println("- Element displayed");
+                    log.info("- xpath element is displayed.");
                     condition = true;
                     break;
                 }
@@ -100,10 +101,10 @@ public class Abstract extends AppiumDriverBuilder {
         for (int i = 0; i < timeout; i++) {
             try {
                 if (!element.isDisplayed()) {
-                    System.out.println("Element not displayed");
+                    System.out.println("- Element not displayed");
                     waitFor(2);
                 } else if (element.isDisplayed()){
-                    System.out.println("Element displayed");
+                    System.out.println("- Element displayed");
                     condition = true;
                     break;
                 }
@@ -183,6 +184,8 @@ public class Abstract extends AppiumDriverBuilder {
         org.junit.Assert.assertTrue("Failed: Selanjutnya button is not displayed", selanjutnyaBtn.isDisplayed());
         selanjutnyaBtn.click();
     }
+    @iOSFindBy(xpath = "//XCUIElementTypePicker/XCUIElementTypePickerWheel")
+    public MobileElement listPickerWheel;
 
     /**
      * Date Picker
@@ -292,9 +295,38 @@ public class Abstract extends AppiumDriverBuilder {
         }
     }
 
+    //for letters
+    public String generateRandomString(int length){
+        return RandomStringUtils.randomAlphanumeric(length);
+    }
+    //for numbers
+    public String generateRandomNumber(int length){
+        return RandomStringUtils.randomNumeric(length);
+    }
+//    for email
+    public String setEmailAddress(int length){
+        return ("uangteman." + generateRandomString(length) + "@mailinator.com");
+    }
 
+    @iOSFindBy(xpath = "//XCUIElementTypeActivityIndicator[@name='In progress']")
+    public MobileElement loadSpinner;
 
-
+    public void waitingLoadingSpinner() {
+        try {
+            for (int i = 0; i < 20; i++){
+                if (isNoElementAvailable() || !loadSpinner.isDisplayed()){
+                    System.out.println("- Loading has been disappeared iteration stopped.");
+                    break;
+                } else if (!isNoElementAvailable() || loadSpinner.isDisplayed()){
+                    System.out.println("- Spinner still displayed now reiterate.");
+                    waitFor(1);
+                }
+            }
+        } catch (Exception e){
+            //
+        }
+        waitFor(2);
+    }
 
 }
 

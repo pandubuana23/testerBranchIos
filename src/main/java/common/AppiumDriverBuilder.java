@@ -38,10 +38,16 @@ public class AppiumDriverBuilder {
     }
 
     public static int step;
+    public static int stepTests;
     public void steps(String message){
-        System.out.println(step + ". " + message);
-        step = (step + 1);
+        System.out.println("* " + message);
+//        step = (step);
     }
+    public void stepTests(String message){
+        System.out.println(stepTests + ". " + message);
+        stepTests = (stepTests + 1);
+    }
+
     public void setStep() { step = 1; }
     public int getStep() { return step; }
 

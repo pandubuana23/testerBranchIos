@@ -11,7 +11,9 @@ public class SumberInfoPage extends Abstract {
     /**
      ** Elements on Home Page
      **/
-//=================================================================================================================================================
+//======================================================================================================================
+    @iOSFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"3\"]")
+    protected MobileElement form3Header;
     @iOSFindBy(id = "Google")
     public MobileElement googleItemList;
 
@@ -22,7 +24,7 @@ public class SumberInfoPage extends Abstract {
     /**
      ** Methods for each elements on Home page
      **/
-//=================================================================================================================================================
+//======================================================================================================================
     public String getSumberInfoText(){
         Assert.assertTrue("Failed: Sumber info page is not displayed", sumberInfoPage.isDisplayed());
         return sumberInfoPage.getText();
@@ -30,6 +32,7 @@ public class SumberInfoPage extends Abstract {
 
     public void checkSumberInfoPage(String sumber_info){
         Assert.assertEquals("Failed: sumber info text is invalid",sumber_info, getSumberInfoText());
+        isElementPresent(form3Header);
     }
 
     public String getGoogleText(){
@@ -44,5 +47,13 @@ public class SumberInfoPage extends Abstract {
         clickSelanjutnyaBtn();
     }
 
+//======================================================================================================================
+
+    public void chooseOneOptionFromSumberInfoPage() {
+         steps("check sumber info page");
+         checkSumberInfoPage("Dari mana kamu mengetahui UangTeman?");
+         steps("choose one from list");
+         clickGoogleItemList("Google");
+    }
 
 }
